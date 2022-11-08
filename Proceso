@@ -1,0 +1,115 @@
+import tkinter as tk
+from tkinter import messagebox
+import login as a
+import registrarse as b
+
+class Aplicacion:
+    def __init__(self):
+        self.ventana=tk.Tk()
+        self.ventana.title('LOGIN')
+        self.ventana.geometry("400x300+10+10")#(largo-alto)
+        self.inicio()#llamamos a la funcion inicio   
+        self.ventana.mainloop()    
+
+    def inicio(self):
+        #ETIQUETAS
+        self.etiqueta_usuario= tk.Label(text='USUARIO: ')
+        self.etiqueta_usuario.place(x=40, y=40) #dimension de la etiqueta usuario
+        self.etiqueta_contraseña1= tk.Label(text='CONTRASEÑA: ')
+        self.etiqueta_contraseña1.place(x=40, y=100)#dimension de la etiqueta contraseña
+
+        self.uss=tk.StringVar()#tipo de varible para caja de usuario
+        self.uss2=tk.StringVar()#tipo de varible para caja de usuario
+
+        #CAJA DE TEXTO 
+        self.caja_usuario =tk.Entry(width=20,textvariable = self.uss)
+        self.caja_usuario.place(x=170, y=40)#dimension de la caja de texto usuario
+        self.caja_contraseña1 = tk.Entry(width=20,textvariable = self.uss2)
+        self.caja_contraseña1.place(x=170, y=100)#dimension de la caja de texto contraseña
+        
+        #BOTONES
+        self.boton1 = tk.Button (text="Ingresar", command=self.ingr)#obtenemos el usuario que esta en la caja de texto)
+        self.boton1.place(x=100, y=180)#dimension del boton1
+        
+        self.boton2 = tk.Button (text="Registrarse",command=self.registrarse)
+        self.boton2.place(x=230, y=180)#dimension del boton2
+    
+    def cinemark(self):
+        self.ventana2=tk.Tk()
+        self.ventana2.title('CINEMARK - USUARIO')
+        self.ventana2.geometry("600x400+10+10")
+        
+        #BOTONES
+        self.crear_reserva = tk.Button (self.ventana2,text="Crear Reserva")
+        self.crear_reserva.place(x=20, y=20)#dimension del boton crear_reserva
+        self.eliminar_reserva = tk.Button (self.ventana2,text="Eliminar Reserva")
+        self.eliminar_reserva.place(x=20, y=60)#dimension del boton eliminar_reserva
+        self.ver_reserva = tk.Button (self.ventana2,text="Ver Reserva")
+        self.ver_reserva.place(x=20, y=100)#dimension del boton ver_reserva
+        self.modificar_perfil = tk.Button (self.ventana2,text="Modificar Perfil")
+        self.modificar_perfil.place(x=20, y=140)#dimension del boton modificar_perfil
+        self.solicitar_tarjeta = tk.Button (self.ventana2,text="solicitar Tarjeta")
+        self.solicitar_tarjeta.place(x=20, y=180)#dimension del boton solicitar_tarjeta
+        
+        self.ventana2.mainloop() 
+
+    def registrarse(self):
+        self.ventana3=tk.Tk()
+        self.ventana3.title('REGISTRO')
+        self.ventana3.geometry("600x400+10+10")
+        
+        #ETIQUETAS
+        self.etiqueta_nombre= tk.Label(self.ventana3,text='NOMBRE: ')
+        self.etiqueta_nombre.place(x=40, y=40) #dimension de la etiqueta nombre
+        self.etiqueta_apellido= tk.Label(self.ventana3,text='APELLIDO: ')
+        self.etiqueta_apellido.place(x=40, y=80) #dimension de la etiqueta apellido
+        self.etiqueta_correo= tk.Label(self.ventana3,text='CORREO: ')
+        self.etiqueta_correo.place(x=40, y=120) #dimension de la etiqueta correo
+        self.etiqueta_contraseña2= tk.Label(self.ventana3,text='CONTRASEÑA: ')
+        self.etiqueta_contraseña2.place(x=40, y=160) #dimension de la etiqueta apellido
+
+        #DECLARACION DE VARIABLES
+        self.uss=tk.StringVar()#tipo de varible para caja de nombre
+        self.us2=tk.StringVar()#tipo de varible para caja de apellido
+        self.us3=tk.StringVar()#tipo de varible para caja de correo
+        self.us4=tk.StringVar()#tipo de varible para caja de contraseña2
+
+        #CAJA DE TEXTO 
+        self.caja_nombre =tk.Entry(self.ventana3,width=35,textvariable = self.uss)
+        self.caja_nombre.place(x=170, y=40)#dimension de la caja de texto nombre
+        self.caja_apellido =tk.Entry(self.ventana3,width=35,textvariable = self.us2)
+        self.caja_apellido.place(x=170, y=80)#dimension de la caja de texto apellido
+        self.caja_correo =tk.Entry(self.ventana3,width=35,textvariable = self.us3)
+        self.caja_correo.place(x=170, y=120)#dimension de la caja de texto correo
+        self.caja_contraseña2 =tk.Entry(self.ventana3,width=35,textvariable = self.us4)
+        self.caja_contraseña2.place(x=170, y=160)#dimension de la caja de texto contraseña
+
+        #BOTON REGISTRARSE2
+        self.regis = tk.Button (self.ventana3,text="REGISTRARSE", command=self.cargar_usuario)
+        self.regis.place(x=200, y=250)#dimension del boton registrarse 2 para cargar en la base de datos
+        self.ventana3.mainloop()
+    
+    def cargar_usuario(self):
+        valor2=(self.uss.get())#obtenemos el texto de la caja de nombre
+        valor3=(self.us2.get())#obtenemos el texto de la caja de apellido
+        valor4=(self.us3.get())#obtenemos el texto de la caja de correo
+        valor5=(self.us4.get())#obtenemos el texto de la caja de contraseña
+        #intanciamos la clase registrarse
+        B=b.registrarse(valor2,valor3,valor4,valor5)
+        B.ingresar()#llamamos al metodo para cargar a la base de datos
+        messagebox.showinfo(message="Registro exitoso", title="respuesta")
+        self.ventana3.mainloop()
+        
+    #METODO DE INGRESO NOS DARA ACCESO SI EL USUARIO SE ENCUENTRA EN LA BASE DE DATOS
+    def ingr(self):
+        valor=(self.uss.get())#obtenemos el texto de la caja de usuario
+        valor1=(self.uss2.get())#obtenemos el texto de la caja de contraseña
+        #intanciamos la clase
+        usuaario=a.login(valor,valor1)
+        if usuaario.ingresar() ==True:
+            self.cinemark()#llamamos a la funcion cinemark
+        else:
+            messagebox.showinfo(message=valor, title="El usuario o contraseña es incorrecto")
+
+#CUERPO DEL PROGRAMA
+aplicacion1=Aplicacion() 
